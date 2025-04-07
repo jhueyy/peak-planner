@@ -1,0 +1,23 @@
+{
+  "name": "peak-planner",
+  "version": "1.0.0",
+  "description": "A hiking app to gather information about California's nature hikes",
+  "homepage": "https://github.com/jhueyy/peak-planner#readme",
+  "bugs": {
+    "url": "https://github.com/jhueyy/peak-planner/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhueyy/peak-planner.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces":[
+    "packages/*"
+  ]
+}
