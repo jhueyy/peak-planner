@@ -1,0 +1,28 @@
+@import url('/styles/tokens.css');
+
+body {
+  background-color: var(--color-background-page);
+  color: var(--color-text-default);
+  font-family: var(--font-family-base);
+}
+
+header {
+  background-color: var(--color-background-header);
+  color: var(--color-text-header);
+  padding: 1rem;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+h1, h2 {
+  color: var(--color-accent);
+}
+
+ul {
+  background-color: var(--color-box-background);
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}

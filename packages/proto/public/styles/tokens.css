@@ -1,0 +1,14 @@
+:root {
+    /* Colors */
+    --color-background-page: #f5f5f5;
+    --color-background-header: #426;
+    --color-text-default: #222;
+    --color-text-header: white;
+    --color-accent: #2a8f2a;
+    --color-box-background: #fff;
+    --color-border: #ccc;
+  
+    /* Typography */
+    --font-family-base: sans-serif;
+  }
+  
