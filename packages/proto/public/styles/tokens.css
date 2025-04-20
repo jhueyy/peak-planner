@@ -9,6 +9,7 @@
     --color-border: #ccc;
   
     /* Typography */
-    --font-family-base: sans-serif;
-  }
+    --font-body: 'Open Sans', sans-serif;
+    --font-display: 'Merriweather', serif;
+}
   
