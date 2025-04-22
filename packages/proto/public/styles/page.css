@@ -37,3 +37,66 @@ svg.icon {
   fill: currentColor;
 }
 
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--color-background-header);
+  color: var(--color-text-header);
+}
+
+.branding h1 {
+  font-size: 1.5rem;
+  font-family: var(--font-display);
+}
+
+.main-nav a {
+  margin-left: 1rem;
+  color: var(--color-text-header);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-weight: bold;
+}
+
+
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem;
+  padding: 2rem;
+}
+
+
+.page-grid > p {
+  grid-column: 2 / span 10;
+}
+
+.feature {
+  grid-column: span 6;
+  background-color: var(--color-box-background);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+@media (min-width: 800px) {
+  .feature {
+    grid-column: span 6;
+  }
+}
+
+
+@media (max-width: 799px) {
+  .feature {
+    grid-column: span 12;
+  }
+}
+
+
+
