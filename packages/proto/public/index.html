@@ -20,34 +20,75 @@
   <main>
     <p>Explore hiking trails, parks, viewpoints, and more!</p>
 
-    <h2>Featured Trails</h2>
+    <h2>
+      <svg class="icon">
+        <use href="#icon-compass" />
+      </svg>
+      Featured Trails
+    </h2>
+
     <ul>
       <li><a href="trails/madonna.html">Madonna Mountain (Cerro San Luis)</a></li>
       <li><a href="trails/bishop.html">Bishop Peak</a></li>
     </ul>
 
-    <h2>Parks</h2>
+    <h2>
+      <svg class="icon">
+        <use href="#icon-trail" />
+      </svg>
+      Parks
+    </h2>
     <ul>
       <li><a href="parks/slo-open-space.html">SLO Open Space</a></li>
     </ul>
 
-    <h2>Difficulty Levels</h2>
+    <h2>
+      <svg class="icon">
+        <use href="#icon-pickaxe" />
+      </svg>
+      Difficulty Levels
+    </h2>
+
     <ul>
       <li><a href="difficulty/moderate.html">Moderate</a></li>
       <li><a href="difficulty/hard.html">Hard</a></li>
     </ul>
 
-    <h2>Tags</h2>
+    <h2>
+      <svg class="icon">
+        <use href="#icon-bonfire" />
+      </svg>
+      Tags
+    </h2>
+
     <ul>
       <li><a href="tags/view.html">Great Views</a></li>
       <li><a href="tags/sunset.html">Sunset Spot</a></li>
     </ul>
 
-    <h2>Reviews</h2>
+    <h2>
+      <svg class="icon">
+        <use href="#icon-mountain" />
+      </svg>
+      Reviews
+    </h2>
+
     <ul>
       <li><a href="reviews/madonna-review.html">“Great city views from Madonna!”</a></li>
       <li><a href="reviews/bishop-review.html">“Challenging hike with a rewarding summit.”</a></li>
     </ul>
   </main>
+
+  <script>
+    fetch("icons/hiking.svg")
+            .then(res => res.text())
+            .then((svg) => {
+              const div = document.createElement("div");
+              div.style.display = "none";
+              div.innerHTML = svg;
+              document.body.prepend(div);
+            });
+  </script>
+
 </body>
 </html>
