@@ -13,3 +13,13 @@
     --font-display: 'Merriweather', serif;
 }
   
+
+body.dark-mode {
+    --color-background-page: #1a1a1a;
+    --color-background-header: #333;
+    --color-text-default: #f5f5f5;
+    --color-text-header: #eee;
+    --color-accent: #80d980;
+    --color-box-background: #2a2a2a;
+    --color-border: #555;
+  }

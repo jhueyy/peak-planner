@@ -14,16 +14,20 @@
   <link rel="stylesheet" href="/styles/page.css" />
 </head>
 <body>
-<header class="site-header">
-  <div class="branding">
-    <h1>Peak Planner</h1>
-  </div>
-  <nav class="main-nav">
-    <a href="#">Home</a>
-    <a href="#">Explore</a>
-    <a href="#">About</a>
-  </nav>
-</header>
+  <header class="site-header">
+    <div class="branding">
+      <h1>Peak Planner</h1>
+    </div>
+    <label id="darkmode-toggle" style="margin-left: auto; padding-right: 1rem;">
+      <input type="checkbox" autocomplete="off" />
+      Dark mode
+    </label>
+    <nav class="main-nav">
+      <a href="#">Home</a>
+      <a href="#">Explore</a>
+      <a href="#">About</a>
+    </nav>
+  </header>
 
 <main class="page-grid">
   <p>Explore hiking trails, parks, viewpoints, and more!</p>
@@ -104,7 +108,9 @@
               div.innerHTML = svg;
               document.body.prepend(div);
             });
-  </script>
+</script>
+
+<script type="module" src="/scripts/darkmode.js"></script>
 
 </body>
 </html>
