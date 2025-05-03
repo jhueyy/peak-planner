@@ -4,13 +4,18 @@
   "description": "",
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
-  "main": "public/index.html",
+  "type": "module",
+  "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "http-server -p 3000 --mime application/javascript:.js"
+    "dev": "npx vite",
+    "build": "npx tsc && npx vite build"
   },
   "dependencies": {
-    "http-server": "^14.1.1"
+    "@calpoly/mustang": "^1.0.15",
+    "lit": "^3.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vite": "^6.3.4"
   }
 }

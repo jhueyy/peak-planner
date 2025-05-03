@@ -32,18 +32,10 @@
 <main class="page-grid">
   <p>Explore hiking trails, parks, viewpoints, and more!</p>
 
-  <section class="feature">
-    <h2>
-      <svg class="icon">
-        <use href="#icon-compass" />
-      </svg>
-      Featured Trails
-    </h2>
-    <ul>
-      <li><a href="trails/madonna.html">Madonna Mountain (Cerro San Luis)</a></li>
-      <li><a href="trails/bishop.html">Bishop Peak</a></li>
-    </ul>
-  </section>
+<peak-feature icon="compass" heading="Featured Trails">
+  <li><a href="trails/madonna.html">Madonna Mountain (Cerro San Luis)</a></li>
+  <li><a href="trails/bishop.html">Bishop Peak</a></li>
+</peak-feature>
 
   <section class="feature">
     <h2>
@@ -111,6 +103,15 @@
 </script>
 
 <script type="module" src="/scripts/darkmode.js"></script>
+
+<script type="module">
+  import { define } from "@calpoly/mustang";
+  import { PeakFeatureElement } from "/src/peak-feature.js";
+
+  define({
+    "peak-feature": PeakFeatureElement
+  });
+</script>
 
 </body>
 </html>
