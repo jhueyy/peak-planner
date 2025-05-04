@@ -1,0 +1,11 @@
+[
+    {
+      "icon": "compass",
+      "heading": "Featured Trails",
+      "items": [
+        { "label": "Madonna Mountain (Cerro San Luis)", "href": "trails/madonna.html" },
+        { "label": "Bishop Peak", "href": "trails/bishop.html" }
+      ]
+    }
+  ]
+  

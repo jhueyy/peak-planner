@@ -32,10 +32,10 @@
 <main class="page-grid">
   <p>Explore hiking trails, parks, viewpoints, and more!</p>
 
-<peak-feature icon="compass" heading="Featured Trails">
-  <li><a href="trails/madonna.html">Madonna Mountain (Cerro San Luis)</a></li>
-  <li><a href="trails/bishop.html">Bishop Peak</a></li>
-</peak-feature>
+  <peak-wrapper src="/data/featured.json">
+    
+  </peak-wrapper>
+  
 
   <section class="feature">
     <h2>
@@ -112,6 +112,13 @@
     "peak-feature": PeakFeatureElement
   });
 </script>
+
+<script type="module">
+  import "/src/peak-wrapper.ts";
+</script>
+
+
+
 
 </body>
 </html>
