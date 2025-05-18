@@ -39,7 +39,24 @@ const FeatureModel = (0, import_mongoose.model)("Feature", FeatureSchema);
 function index() {
   return FeatureModel.find();
 }
-function get(id) {
-  return FeatureModel.findById(id);
+function get(heading) {
+  return FeatureModel.findOne({ heading });
 }
-var feature_svc_default = { index, get };
+function create(json) {
+  const feature = new FeatureModel(json);
+  return feature.save();
+}
+function update(heading, feature) {
+  return FeatureModel.findOneAndUpdate({ heading }, feature, { new: true }).then(
+    (updated) => {
+      if (!updated) throw `${heading} not updated`;
+      return updated;
+    }
+  );
+}
+function remove(heading) {
+  return FeatureModel.findOneAndDelete({ heading }).then((deleted) => {
+    if (!deleted) throw `${heading} not deleted`;
+  });
+}
+var feature_svc_default = { index, get, create, update, remove };

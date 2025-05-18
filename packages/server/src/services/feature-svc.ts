@@ -19,13 +19,34 @@ const FeatureSchema = new Schema<Feature>(
 // Create the model
 const FeatureModel = model<Feature>("Feature", FeatureSchema);
 
-// Export service functions
+// Service functions
 function index(): Promise<Feature[]> {
   return FeatureModel.find();
 }
 
-function get(id: string): Promise<Feature | null> {
-  return FeatureModel.findById(id);
+function get(heading: string): Promise<Feature | null> {
+  return FeatureModel.findOne({ heading });
 }
 
-export default { index, get };
+function create(json: Feature): Promise<Feature> {
+  const feature = new FeatureModel(json);
+  return feature.save();
+}
+
+function update(heading: string, feature: Feature): Promise<Feature> {
+  return FeatureModel.findOneAndUpdate({ heading }, feature, { new: true }).then(
+    (updated) => {
+      if (!updated) throw `${heading} not updated`;
+      return updated as Feature;
+    }
+  );
+}
+
+function remove(heading: string): Promise<void> {
+  return FeatureModel.findOneAndDelete({ heading }).then((deleted) => {
+    if (!deleted) throw `${heading} not deleted`;
+  });
+}
+
+// Export service API
+export default { index, get, create, update, remove };

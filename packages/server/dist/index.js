@@ -23,21 +23,15 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_mongo = require("./services/mongo");
-var import_feature_svc = __toESM(require("./services/feature-svc"));
+var import_features = __toESM(require("./routes/features"));
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 app.use(import_express.default.static(staticDir));
+app.use(import_express.default.json());
+app.use("/api/features", import_features.default);
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
-});
-app.get("/features", async (req, res) => {
-  try {
-    const data = await import_feature_svc.default.index();
-    res.set("Content-Type", "application/json").send(JSON.stringify(data));
-  } catch (err) {
-    res.status(500).send("Error fetching features");
-  }
 });
 (0, import_mongo.connect)("peak");
 app.listen(port, () => {
