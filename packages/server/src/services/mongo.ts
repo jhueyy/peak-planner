@@ -1,11 +1,7 @@
-// src/services/mongo.ts
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-// Enable debug logging (optional)
 mongoose.set("debug", true);
-
-// Load .env file
 dotenv.config();
 
 function getMongoURI(dbname: string) {
@@ -13,21 +9,13 @@ function getMongoURI(dbname: string) {
   const { MONGO_USER, MONGO_PWD, MONGO_CLUSTER } = process.env;
 
   if (MONGO_USER && MONGO_PWD && MONGO_CLUSTER) {
-    console.log(
-      "Connecting to MongoDB at",
-      `mongodb+srv://${MONGO_USER}:<password>@${MONGO_CLUSTER}/${dbname}`
-    );
-
+    console.log("Connecting to MongoDB at", `mongodb+srv://${MONGO_USER}@${MONGO_CLUSTER}`);
     connection_string = `mongodb+srv://${MONGO_USER}:${MONGO_PWD}@${MONGO_CLUSTER}/${dbname}?retryWrites=true&w=majority`;
-  } else {
-    console.log("Connecting to MongoDB locally at", connection_string);
   }
 
   return connection_string;
 }
 
 export function connect(dbname: string) {
-  mongoose
-    .connect(getMongoURI(dbname))
-    .catch((error) => console.error("MongoDB connection error:", error));
+  mongoose.connect(getMongoURI(dbname)).catch((error) => console.log(error));
 }

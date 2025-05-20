@@ -12,5 +12,5 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var feature_exports = {};
-module.exports = __toCommonJS(feature_exports);
+var featured_exports = {};
+module.exports = __toCommonJS(featured_exports);

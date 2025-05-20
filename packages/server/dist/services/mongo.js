@@ -39,18 +39,13 @@ function getMongoURI(dbname) {
   let connection_string = `mongodb://localhost:27017/${dbname}`;
   const { MONGO_USER, MONGO_PWD, MONGO_CLUSTER } = process.env;
   if (MONGO_USER && MONGO_PWD && MONGO_CLUSTER) {
-    console.log(
-      "Connecting to MongoDB at",
-      `mongodb+srv://${MONGO_USER}:<password>@${MONGO_CLUSTER}/${dbname}`
-    );
+    console.log("Connecting to MongoDB at", `mongodb+srv://${MONGO_USER}@${MONGO_CLUSTER}`);
     connection_string = `mongodb+srv://${MONGO_USER}:${MONGO_PWD}@${MONGO_CLUSTER}/${dbname}?retryWrites=true&w=majority`;
-  } else {
-    console.log("Connecting to MongoDB locally at", connection_string);
   }
   return connection_string;
 }
 function connect(dbname) {
-  import_mongoose.default.connect(getMongoURI(dbname)).catch((error) => console.error("MongoDB connection error:", error));
+  import_mongoose.default.connect(getMongoURI(dbname)).catch((error) => console.log(error));
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
