@@ -1,0 +1,37 @@
+<!-- proto/newuser.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script type="module">
+    import { define, Auth } from "@calpoly/mustang";
+    import { LoginFormElement } from "/src/auth/login-form";
+
+    define({
+      "mu-auth": Auth.Provider,
+      "login-form": LoginFormElement
+    });
+  </script>
+</head>
+<body class="page">
+  <mu-auth>
+    <h2>Register New User</h2>
+    <main class="card">
+      <login-form api="/auth/register" redirect="/">
+        <label>
+          <span>Username:</span>
+          <input name="username" autocomplete="off" />
+        </label>
+        <label>
+          <span>Password:</span>
+          <input type="password" name="password" />
+        </label>
+        <span slot="button">
+          <button type="submit">Register</button>
+        </span>
+      </login-form>
+    </main>
+    <p><a href="login.html">Already have an account? Log in</a></p>
+  </mu-auth>
+</body>
+</html>
