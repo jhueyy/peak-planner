@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { connect } from "./services/mongo";
-import FeaturedService from "./services/featured-svc"; 
 import featured from "./routes/featured";
+import auth, { authenticateUser } from "./routes/auth";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,7 +13,11 @@ connect("peak"); // or whatever your db name is
 // Serve static frontend (e.g. from proto/dist)
 app.use(express.static(staticDir));
 app.use(express.json());
-app.use("/api/featured", featured);
+
+
+app.use("/auth", auth);
+app.use("/api/featured", authenticateUser, featured);
+
 
 // Sample route to confirm server is working
 app.get("/hello", (req: Request, res: Response) => {

@@ -23,12 +23,10 @@ __export(featured_svc_exports, {
 module.exports = __toCommonJS(featured_svc_exports);
 var import_mongoose = require("mongoose");
 const FeaturedSchema = new import_mongoose.Schema({
-  id: { type: String, required: true },
-  name: String,
-  link: String,
-  startDate: String,
-  endDate: String,
-  featuredImage: String
+  slug: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  href: { type: String, required: true },
+  image: String
 }, { collection: "featured" });
 const FeaturedModel = (0, import_mongoose.model)("Featured", FeaturedSchema);
 function index() {

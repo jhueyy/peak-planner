@@ -2,12 +2,10 @@ import { Schema, model } from "mongoose";
 import { Featured } from "../models/featured";
 
 const FeaturedSchema = new Schema<Featured>({
-  id: { type: String, required: true },
-  name: String,
-  link: String,
-  startDate: String,
-  endDate: String,
-  featuredImage: String
+  slug: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  href: { type: String, required: true },
+  image: String
 }, { collection: "featured" });
 
 const FeaturedModel = model<Featured>("Featured", FeaturedSchema);

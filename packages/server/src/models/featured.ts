@@ -1,8 +1,6 @@
 export interface Featured {
-  id: string;
+  slug: string;
   name: string;
-  link: string;
-  startDate: string;
-  endDate: string;
-  featuredImage?: string;
+  href: string;
+  image?: string;
 }

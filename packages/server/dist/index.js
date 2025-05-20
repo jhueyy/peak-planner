@@ -24,13 +24,15 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var import_express = __toESM(require("express"));
 var import_mongo = require("./services/mongo");
 var import_featured = __toESM(require("./routes/featured"));
+var import_auth = __toESM(require("./routes/auth"));
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 (0, import_mongo.connect)("peak");
 app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
-app.use("/api/featured", import_featured.default);
+app.use("/auth", import_auth.default);
+app.use("/api/featured", import_auth.authenticateUser, import_featured.default);
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });
