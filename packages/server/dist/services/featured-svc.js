@@ -37,4 +37,19 @@ function index() {
 function get(id) {
   return FeaturedModel.findOne({ id }).catch(() => null);
 }
-var featured_svc_default = { index, get };
+function create(json) {
+  const f = new FeaturedModel(json);
+  return f.save();
+}
+function update(id, featured) {
+  return FeaturedModel.findOneAndUpdate({ id }, featured, { new: true }).then((updated) => {
+    if (!updated) throw `${id} not updated`;
+    return updated;
+  });
+}
+function remove(id) {
+  return FeaturedModel.findOneAndDelete({ id }).then((deleted) => {
+    if (!deleted) throw `${id} not deleted`;
+  });
+}
+var featured_svc_default = { index, get, create, update, remove };
