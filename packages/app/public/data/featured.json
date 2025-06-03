@@ -1,53 +1,15 @@
 [
     {
-        "icon": "trail",
-        "heading": "Parks",
+        "icon": "compass",
+        "heading": "Featured Trails",
         "items": [
             {
-                "label": "SLO Open Space",
-                "href": "/app/parks/slo-open-space"
-            }
-        ]
-    },
-    {
-        "icon": "pickaxe",
-        "heading": "Difficulty Levels",
-        "items": [
-            {
-                "label": "Moderate",
-                "href": "/app/difficulty/moderate"
+                "label": "Madonna Mountain (Cerro San Luis)",
+                "href": "trails/madonna.html"
             },
             {
-                "label": "Hard",
-                "href": "/app/difficulty/hard"
-            }
-        ]
-    },
-    {
-        "icon": "bonfire",
-        "heading": "Tags",
-        "items": [
-            {
-                "label": "Great Views",
-                "href": "/app/tags/view"
-            },
-            {
-                "label": "Sunset Spot",
-                "href": "/app/tags/sunset"
-            }
-        ]
-    },
-    {
-        "icon": "mountain",
-        "heading": "Reviews",
-        "items": [
-            {
-                "label": "“Great city views from Madonna!”",
-                "href": "/app/reviews/madonna-review"
-            },
-            {
-                "label": "“Challenging hike with a rewarding summit.”",
-                "href": "/app/reviews/bishop-review"
+                "label": "Bishop Peak",
+                "href": "trails/bishop.html"
             }
         ]
     }

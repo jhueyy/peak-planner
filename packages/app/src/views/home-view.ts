@@ -23,6 +23,10 @@ export class HomeViewElement extends LitElement {
         font-size: 1.2rem;
         margin-bottom: 1rem;
       }
+        :host-context(.dark-mode) {
+      background-color: var(--color-background-dark, #1e1e1e);
+      color: var(--color-text-dark, #f0f0f0);
+    }
     `
     ];
 
@@ -32,6 +36,7 @@ export class HomeViewElement extends LitElement {
         <p>Explore hiking trails, parks, viewpoints, and more!</p>
 
         <peak-wrapper src="/data/featured.json"></peak-wrapper>
+        
 
         <section class="feature">
           <h2>
