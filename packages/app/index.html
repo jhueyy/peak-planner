@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Peak Planner</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="/styles/reset.css" />
+  <link rel="stylesheet" href="/styles/tokens.css" />
+  <link rel="stylesheet" href="/styles/page.css" />
+</head>
+
+<body>
+  <mu-history provides="app:history">
+    <mu-auth provides="app:auth" redirect="/login.html">
+      <article class="page">
+        <peak-header></peak-header>
+        <mu-switch></mu-switch>
+      </article>
+    </mu-auth>
+  </mu-history>
+
+  <!-- Load hiking icons SVG -->
+  <script>
+    fetch("icons/hiking.svg")
+      .then(res => res.text())
+      .then((svg) => {
+        const div = document.createElement("div");
+        div.style.display = "none";
+        div.innerHTML = svg;
+        document.body.prepend(div);
+      });
+  </script>
+
+  <!-- Load the SPA entry point -->
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
