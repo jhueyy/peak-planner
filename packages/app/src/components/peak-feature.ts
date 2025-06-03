@@ -1,6 +1,6 @@
 import { html, css, LitElement } from "lit";
 import { property } from "lit/decorators.js";
-import reset from "../../public/styles/reset.css.ts";
+import reset from "../styles/reset.css.ts";
 
 export class PeakFeatureElement extends LitElement {
   @property() icon = "";

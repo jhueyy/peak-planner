@@ -11,6 +11,7 @@ import { html } from "lit";
 import { PeakHeader } from "./components/peak-header";
 import "./views/home-view"; // Your homepage view
 import { PeakWrapperElement } from "./components/peak-wrapper";
+import { PeakFeatureElement } from "./components/peak-feature";
 
 
 // Define routes
@@ -43,5 +44,6 @@ define({
         }
     },
     "peak-header": PeakHeader,
-    "peak-wrapper": PeakWrapperElement
+    "peak-wrapper": PeakWrapperElement,
+    "peak-feature": PeakFeatureElement
 });
