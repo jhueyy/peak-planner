@@ -1,25 +1,39 @@
+import { Schema, model } from "mongoose";
 import { Park } from "../models/park";
 
-// TEMP: In-memory dummy data
-const dummyParks: Record<string, Park> = {
-    "slo-open-space": {
-        id: "slo-open-space",
-        name: "SLO Open Space",
-        description: "A scenic open space with multiple trails and beautiful views.",
-        trails: ["bishop-peak", "cerro-san-luis"]
-    },
-    "morro-bay": {
-        id: "morro-bay",
-        name: "Morro Bay State Park",
-        description: "A coastal park with estuary views and forest trails.",
-        trails: []
-    }
-};
+const ParkSchema = new Schema<Park>({
+    id: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    trails: [String] // trail ids
+}, { collection: "parks" });
 
-const ParkService = {
-    get(id: string): Promise<Park | null> {
-        return Promise.resolve(dummyParks[id] || null);
-    }
-};
+const ParkModel = model<Park>("Park", ParkSchema);
 
-export default ParkService;
+function get(id: string): Promise<Park | null> {
+    return ParkModel.findOne({ id }).catch(() => null);
+}
+
+function index(): Promise<Park[]> {
+    return ParkModel.find();
+}
+
+function create(json: Park): Promise<Park> {
+    const p = new ParkModel(json);
+    return p.save();
+}
+
+function update(id: string, data: Park): Promise<Park> {
+    return ParkModel.findOneAndUpdate({ id }, data, { new: true }).then((updated) => {
+        if (!updated) throw `${id} not updated`;
+        return updated;
+    });
+}
+
+function remove(id: string): Promise<void> {
+    return ParkModel.findOneAndDelete({ id }).then((deleted) => {
+        if (!deleted) throw `${id} not deleted`;
+    });
+}
+
+export default { get, index, create, update, remove };

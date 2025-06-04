@@ -1,32 +1,41 @@
+import { Schema, model } from "mongoose";
 import { Trail } from "../models/trail";
 
-// TEMP: In-memory dummy data
-const dummyTrails: Record<string, Trail> = {
-    "bishop-peak": {
-        id: "bishop-peak",
-        name: "Bishop Peak",
-        difficulty: "Hard",
-        tags: ["Scenic", "Challenging"],
-        reviews: [
-            "Tough climb but beautiful views!",
-            "One of the best hikes in SLO."
-        ],
-        park: "slo-open-space"
-    },
-    "cerro-san-luis": {
-        id: "cerro-san-luis",
-        name: "Cerro San Luis",
-        difficulty: "Moderate",
-        tags: ["Viewpoint", "Popular"],
-        reviews: ["Shorter hike but still great!", "Nice place to run."],
-        park: "slo-open-space"
-    }
-};
+const TrailSchema = new Schema<Trail>({
+    id: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    difficulty: { type: String, required: true },
+    tags: [String],
+    reviews: [String],
+    park: { type: String, required: true }
+}, { collection: "trails" });
 
-const TrailService = {
-    get(id: string): Promise<Trail | null> {
-        return Promise.resolve(dummyTrails[id] || null);
-    }
-};
+const TrailModel = model<Trail>("Trail", TrailSchema);
 
-export default TrailService;
+function get(id: string): Promise<Trail | null> {
+    return TrailModel.findOne({ id }).catch(() => null);
+}
+
+function index(): Promise<Trail[]> {
+    return TrailModel.find();
+}
+
+function create(json: Trail): Promise<Trail> {
+    const t = new TrailModel(json);
+    return t.save();
+}
+
+function update(id: string, data: Trail): Promise<Trail> {
+    return TrailModel.findOneAndUpdate({ id }, data, { new: true }).then((updated) => {
+        if (!updated) throw `${id} not updated`;
+        return updated;
+    });
+}
+
+function remove(id: string): Promise<void> {
+    return TrailModel.findOneAndDelete({ id }).then((deleted) => {
+        if (!deleted) throw `${id} not deleted`;
+    });
+}
+
+export default { get, index, create, update, remove };
