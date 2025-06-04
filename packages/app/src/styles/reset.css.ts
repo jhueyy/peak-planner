@@ -14,6 +14,7 @@ export default {
     }
 
     body {
+      margin: 0;
       font-family: var(--font-body, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif);
       line-height: 1.5;
       color: var(--color-text, #333);

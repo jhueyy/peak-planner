@@ -12,8 +12,10 @@ export class HomeViewElement extends LitElement {
         page,
         css`
       :host {
-        display: block;
-        padding: 1rem;
+       display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
         font-family: var(--font-body);
         background-color: var(--color-background);
       }

@@ -67,7 +67,9 @@ svg.icon {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 1rem;
-  padding: 2rem;
+  padding: 1rem 2rem;
+  min-height: 100%;
+  
 }
 
 
