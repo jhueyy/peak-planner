@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import { connect } from "./services/mongo";
 import featured from "./routes/featured";
 import auth, { authenticateUser } from "./routes/auth";
+import trails from "./routes/trails";
+import parks from "./routes/parks";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,6 +19,8 @@ app.use(express.json());
 
 app.use("/auth", auth);
 app.use("/api/featured", authenticateUser, featured);
+app.use("/api/trails", authenticateUser, trails);
+app.use("/api/parks", authenticateUser, parks);
 
 
 // Sample route to confirm server is working
