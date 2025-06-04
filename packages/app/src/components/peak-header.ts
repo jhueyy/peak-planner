@@ -3,7 +3,7 @@ import { state } from "lit/decorators.js";
 import { Auth, Observer, Events } from "@calpoly/mustang";
 
 export class PeakHeader extends LitElement {
- static styles = css`
+  static styles = css`
   header {
     display: flex;
     align-items: center;
@@ -98,11 +98,11 @@ export class PeakHeader extends LitElement {
           <a href="#">Explore</a>
           <a href="#">About</a>
           ${this.loggedIn
-            ? html`
+        ? html`
                 <span>Hello, ${this.userid}</span>
                 <button @click=${this.handleSignOut}>Sign Out</button>
               `
-            : html`<a href="/login.html">Sign In…</a>`}
+        : html`<a href="/login.html" @click=${this.navigateToLogin}>Sign In…</a>`}
         </nav>
       </header>
     `;
@@ -116,5 +116,10 @@ export class PeakHeader extends LitElement {
 
   handleSignOut(e: Event) {
     Events.relay(e, "auth:message", ["auth/signout"]);
+  }
+
+  navigateToLogin(e: Event) {
+    e.preventDefault(); // stop Mustang from hijacking the click
+    window.location.href = "/login.html"; // full-page reload
   }
 }
