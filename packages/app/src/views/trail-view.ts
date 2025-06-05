@@ -13,6 +13,7 @@ interface Trail {
 export class TrailViewElement extends LitElement {
     @property({ attribute: "trail-id" }) trailId = "";
     @state() trail?: Trail;
+    @state() error?: string;
 
     static styles = css`
     section {
@@ -29,14 +30,37 @@ export class TrailViewElement extends LitElement {
 
     async connectedCallback() {
         super.connectedCallback();
-        if (this.trailId) {
-            const res = await fetch(`/api/trails/${this.trailId}`);
+
+        if (!this.trailId) return;
+
+        try {
+            const res = await fetch(`/api/trails/${this.trailId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!res.ok) {
+                const msg = await res.text();
+                throw new Error(msg || "Failed to load trail");
+            }
+
             this.trail = await res.json();
+        } catch (err) {
+            console.error("Error loading trail:", err);
+            this.error = "Unable to load trail. You may need to sign in.";
         }
     }
 
     render() {
-        if (!this.trail) return html`<p>Loading trail...</p>`;
+        if (this.error) {
+            return html`<p style="color: red;">${this.error}</p>`;
+        }
+
+        if (!this.trail) {
+            return html`<p>Loading trail...</p>`;
+        }
+
         return html`
       <section>
         <h2>${this.trail.name}</h2>

@@ -5,11 +5,11 @@
         "items": [
             {
                 "label": "Madonna Mountain (Cerro San Luis)",
-                "href": "trails/madonna.html"
+                "href": "/app/trails/madonna"
             },
             {
                 "label": "Bishop Peak",
-                "href": "trails/bishop.html"
+                "href": "/app/trails/bishop"
             }
         ]
     }
