@@ -26,16 +26,18 @@
       min-height: 100vh;
     }
   </style>
-  <script type="module" crossorigin src="/assets/index-bIw9TWuC.js"></script>
+  <script type="module" crossorigin src="/assets/index-CSrxR9pw.js"></script>
 </head>
 
 <body>
   <mu-history provides="app:history">
     <mu-auth provides="app:auth" redirect="/login.html">
-      <article class="page">
-        <peak-header></peak-header>
-        <mu-switch></mu-switch>
-      </article>
+      <mu-store provides="app:model">
+        <article class="page">
+          <peak-header></peak-header>
+          <mu-switch></mu-switch>
+        </article>
+      </mu-store>
     </mu-auth>
   </mu-history>
 

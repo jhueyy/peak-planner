@@ -31,10 +31,12 @@
 <body>
   <mu-history provides="app:history">
     <mu-auth provides="app:auth" redirect="/login.html">
-      <article class="page">
-        <peak-header></peak-header>
-        <mu-switch></mu-switch>
-      </article>
+      <mu-store provides="app:model">
+        <article class="page">
+          <peak-header></peak-header>
+          <mu-switch></mu-switch>
+        </article>
+      </mu-store>
     </mu-auth>
   </mu-history>
 

@@ -2,21 +2,26 @@ import {
     Auth,
     define,
     History,
-    Switch
+    Switch,
+    Store
 } from "@calpoly/mustang";
 import { html } from "lit";
 
-// Import your components
+import { Msg } from "./message";
+import { Model, init } from "./model";
+import update from "./update";
+
+// Components
 import { PeakHeader } from "./components/peak-header";
 import { PeakWrapperElement } from "./components/peak-wrapper";
 import { PeakFeatureElement } from "./components/peak-feature";
 
-// Import views
+// Views
 import "./views/home-view";
 import "./views/trail-view";
 import "./views/park-view";
 
-// Define SPA routes
+// Routes
 const routes = [
     {
         path: "/app/trails/:id",
@@ -42,13 +47,18 @@ const routes = [
     }
 ];
 
-// Register components
+// Register custom elements
 define({
     "mu-auth": Auth.Provider,
     "mu-history": History.Provider,
     "mu-switch": class AppSwitch extends Switch.Element {
         constructor() {
             super(routes, "app:history", "app:auth");
+        }
+    },
+    "mu-store": class AppStore extends Store.Provider<Model, Msg> {
+        constructor() {
+            super(update, init, "app:auth");
         }
     },
     "peak-header": PeakHeader,
