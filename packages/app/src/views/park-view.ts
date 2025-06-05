@@ -1,56 +1,41 @@
-import { LitElement, html, css } from "lit";
-import { property, state } from "lit/decorators.js";
+import { html, css } from "lit";
+import { state } from "lit/decorators.js";
+import { View } from "@calpoly/mustang";
+import { define } from "@calpoly/mustang";
+import { Model } from "../model";
+import { Msg } from "../message";
 
-interface Park {
-    id: string;
-    name: string;
-    trails: string[];
-    description: string;
-}
-
-export class ParkViewElement extends LitElement {
-    @property({ attribute: "park-id" }) parkId = "";
-    @state() park?: Park;
-    @state() error?: string;
-
+export class ParkViewElement extends View<Model, Msg> {
     static styles = css`
     section {
       padding: 1rem;
     }
+
     h2 {
       font-size: 1.8rem;
     }
   `;
 
-    async connectedCallback() {
+    constructor() {
+        super("app:model");
+    }
+
+    @state()
+    get park() {
+        return this.model.park;
+    }
+
+    connectedCallback(): void {
         super.connectedCallback();
 
-        if (!this.parkId) return;
-
-        try {
-            const res = await fetch(`/api/parks/${this.parkId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            });
-
-            if (!res.ok) {
-                const msg = await res.text();
-                throw new Error(msg || "Failed to load park");
-            }
-
-            this.park = await res.json();
-        } catch (err) {
-            console.error("Error loading park:", err);
-            this.error = "Unable to load park. You may need to sign in.";
+        const path = window.location.pathname;
+        const match = path.match(/\/app\/parks\/([^/]+)/);
+        if (match) {
+            this.dispatchMessage(["park/select", { parkid: match[1] }]);
         }
     }
 
     render() {
-        if (this.error) {
-            return html`<p style="color: red;">${this.error}</p>`;
-        }
-
         if (!this.park) {
             return html`<p>Loading park...</p>`;
         }
@@ -61,13 +46,13 @@ export class ParkViewElement extends LitElement {
         <p>${this.park.description}</p>
         <h3>Trails:</h3>
         <ul>
-          ${this.park.trails.map((trail) => html`
-            <li><a href="/app/trails/${trail}">${trail}</a></li>
-          `)}
+          ${this.park.trails.map(
+            (trail) => html`<li><a href="/app/trails/${trail}">${trail}</a></li>`
+        )}
         </ul>
       </section>
     `;
     }
 }
 
-customElements.define("park-view", ParkViewElement);
+define({ "park-view": ParkViewElement });

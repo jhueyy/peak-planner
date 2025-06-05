@@ -1,62 +1,45 @@
-import { LitElement, html, css } from "lit";
-import { property, state } from "lit/decorators.js";
+import { html, css } from "lit";
+import { state } from "lit/decorators.js";
+import { View, define } from "@calpoly/mustang";
+import { Model } from "../model";
+import { Msg } from "../message";
 
-interface Trail {
-    id: string;
-    name: string;
-    difficulty: string;
-    tags: string[];
-    reviews: string[];
-    park: string;
-}
-
-export class TrailViewElement extends LitElement {
-    @property({ attribute: "trail-id" }) trailId = "";
-    @state() trail?: Trail;
-    @state() error?: string;
-
+export class TrailViewElement extends View<Model, Msg> {
     static styles = css`
     section {
       padding: 1rem;
     }
+
     h2 {
       font-size: 1.8rem;
     }
+
     ul {
       list-style: disc;
       padding-left: 1.5rem;
     }
   `;
 
-    async connectedCallback() {
+    constructor() {
+        super("app:model");
+    }
+
+    @state()
+    get trail() {
+        return this.model.trail;
+    }
+
+    connectedCallback(): void {
         super.connectedCallback();
 
-        if (!this.trailId) return;
-
-        try {
-            const res = await fetch(`/api/trails/${this.trailId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            });
-
-            if (!res.ok) {
-                const msg = await res.text();
-                throw new Error(msg || "Failed to load trail");
-            }
-
-            this.trail = await res.json();
-        } catch (err) {
-            console.error("Error loading trail:", err);
-            this.error = "Unable to load trail. You may need to sign in.";
+        const path = window.location.pathname;
+        const match = path.match(/\/app\/trails\/([^/]+)/);
+        if (match) {
+            this.dispatchMessage(["trail/select", { trailid: match[1] }]);
         }
     }
 
     render() {
-        if (this.error) {
-            return html`<p style="color: red;">${this.error}</p>`;
-        }
-
         if (!this.trail) {
             return html`<p>Loading trail...</p>`;
         }
@@ -67,13 +50,14 @@ export class TrailViewElement extends LitElement {
         <p><strong>Difficulty:</strong> ${this.trail.difficulty}</p>
         <p><strong>Park:</strong> ${this.trail.park}</p>
         <p><strong>Tags:</strong> ${this.trail.tags.join(", ")}</p>
+
         <h3>Reviews:</h3>
         <ul>
-          ${this.trail.reviews.map((r) => html`<li>${r}</li>`)}
+          ${this.trail.reviews.map((review) => html`<li>${review}</li>`)}
         </ul>
       </section>
     `;
     }
 }
 
-customElements.define("trail-view", TrailViewElement);
+define({ "trail-view": TrailViewElement });
