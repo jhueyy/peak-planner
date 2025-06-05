@@ -1,43 +1,57 @@
-<!-- packages/proto/newuser.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
-  <title>Register - Peak Planner</title>
+  <title>Register</title>
+</head>
 
-  <script type="module">
-    import { define, Auth } from "@calpoly/mustang";
-    import { LoginFormElement } from "/src/auth/login-form.ts";
+<body>
+  <h2>Register New User</h2>
 
-    define({
-      "mu-auth": Auth.Provider,
-      "login-form": LoginFormElement
+  <form id="register-form">
+    <label>
+      Username:
+      <input type="text" name="username" autocomplete="off" required />
+    </label>
+
+    <label>
+      Password:
+      <input type="password" name="password" required />
+    </label>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <p>Already have an account? <a href="login.html">Log in</a></p>
+
+  <script>
+    const form = document.getElementById("register-form");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const username = formData.get("username");
+      const password = formData.get("password");
+
+      const res = await fetch("/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (res.ok) {
+        const { token } = await res.json();
+        localStorage.setItem("token", token);
+        window.location.replace("/app");
+      } else {
+        alert("Registration failed. That username may already be taken.");
+      }
     });
   </script>
-</head>
-<body class="page">
-  <mu-auth>
-    <h2>Register New User</h2>
-
-    <main class="card">
-      <login-form api="/auth/register" redirect="/">
-        <label>
-          <span>Username:</span>
-          <input name="username" autocomplete="off" />
-        </label>
-
-        <label>
-          <span>Password:</span>
-          <input type="password" name="password" />
-        </label>
-
-        <span slot="button">
-          <button type="submit">Register</button>
-        </span>
-      </login-form>
-    </main>
-
-    <p>Already have an account? <a href="login.html">Log in</a></p>
-  </mu-auth>
 </body>
+
 </html>
