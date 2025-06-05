@@ -215,7 +215,7 @@ Expecting `+xt.join(", ")+", got '"+(this.terminals_[A]||A)+"'":qt="Parse error 
               `:b`<a href="/login.html" @click=${this.navigateToLogin}>Sign In…</a>`}
         </nav>
       </header>
-    `}toggleDarkMode(t){const s=t.target.checked;document.body.classList.toggle("dark-mode",s)}handleSignOut(t){ri.relay(t,"auth:message",["auth/signout"])}navigateToLogin(t){t.preventDefault(),window.location.assign("/login.html")}};pe.styles=O`
+    `}toggleDarkMode(t){const s=t.target.checked;document.body.classList.toggle("dark-mode",s)}handleSignOut(t){ri.relay(t,"auth:message",["auth/signout"])}navigateToLogin(t){t.preventDefault(),window.location.href="/login.html"}};pe.styles=O`
   header {
     display: flex;
     align-items: center;
