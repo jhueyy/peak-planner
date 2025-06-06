@@ -16,6 +16,7 @@ import { PeakFeatureElement } from "./components/peak-feature";
 import "./views/home-view";
 import "./views/trail-view";
 import "./views/park-view";
+import "./views/trail-edit-view";
 
 // ----------------------------------------------------------------------------
 // 1) Define your route array exactly as you want the URLs to resolve.
@@ -23,6 +24,12 @@ import "./views/park-view";
 //    this array into our custom Switch.Element subclass below.
 //
 const routes = [
+    {
+        path: "/app/trails/:id/edit",
+        view: (params: Switch.Params) => html`
+          <trail-edit-view trail-id=${params.id}></trail-edit-view>
+        `
+    },
     {
         path: "/app/trails/:id",
         view: (params: Switch.Params) => html`

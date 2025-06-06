@@ -1,14 +1,19 @@
+// packages/server/src/services/trail-svc.ts
+
 import { Schema, model } from "mongoose";
 import { Trail } from "../models/trail";
 
-const TrailSchema = new Schema<Trail>({
-    id: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
-    difficulty: { type: String, required: true },
-    tags: [String],
-    reviews: [String],
-    park: { type: String, required: true }
-}, { collection: "trails" });
+const TrailSchema = new Schema<Trail>(
+    {
+        id: { type: String, required: true, unique: true },
+        name: { type: String, required: true },
+        difficulty: { type: String, required: true },
+        tags: [String],
+        reviews: [String],
+        park: { type: String, required: true }
+    },
+    { collection: "trails" }
+);
 
 const TrailModel = model<Trail>("Trail", TrailSchema);
 
@@ -25,16 +30,17 @@ function create(json: Trail): Promise<Trail> {
     return t.save();
 }
 
-function update(id: string, data: Trail): Promise<Trail> {
+// Change this signature to accept Partial<Trail> instead of Trail
+function update(id: string, data: Partial<Trail>): Promise<Trail | null> {
     return TrailModel.findOneAndUpdate({ id }, data, { new: true }).then((updated) => {
-        if (!updated) throw `${id} not updated`;
+        if (!updated) throw new Error(`${id} not updated`);
         return updated;
     });
 }
 
 function remove(id: string): Promise<void> {
     return TrailModel.findOneAndDelete({ id }).then((deleted) => {
-        if (!deleted) throw `${id} not deleted`;
+        if (!deleted) throw new Error(`${id} not deleted`);
     });
 }
 

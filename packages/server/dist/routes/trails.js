@@ -41,4 +41,18 @@ router.get("/:id", (req, res) => {
     else res.status(404).send(`Trail with id ${id} not found`);
   }).catch((err) => res.status(500).send(err));
 });
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const updatedFields = req.body;
+  import_trail_svc.default.update(id, updatedFields).then((updatedTrail) => {
+    if (updatedTrail) {
+      res.json(updatedTrail);
+    } else {
+      res.status(404).send(`Trail with id ${id} not found`);
+    }
+  }).catch((err) => {
+    console.error("Failed to update trail:", err);
+    res.status(500).send(err);
+  });
+});
 var trails_default = router;

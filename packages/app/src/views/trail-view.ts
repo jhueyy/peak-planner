@@ -2,7 +2,7 @@
 
 import { html, css } from "lit";
 import { property, state } from "lit/decorators.js";
-import { define, View } from "@calpoly/mustang";
+import { View, define, History } from "@calpoly/mustang";
 
 import { Model } from "../model";
 import { Msg } from "../message";
@@ -41,47 +41,71 @@ export class TrailViewElement extends View<Model, Msg> {
       text-decoration: underline;
     }
 
+    /***** BUTTON STYLES *****/
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background-color: var(--color-primary);
+      /* In light‐mode, we use black text for contrast */
+      color: black;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    /* In dark‐mode, override so the button text becomes white */
+    :host-context(.dark-mode) button {
+      /* If your primary color is still fine in dark mode, keep it.
+         Otherwise you could use a slightly lighter/darker variant. */
+      background-color: var(--color-primary);
+      color: white;
+    }
+
     :host-context(.dark-mode) {
       background-color: var(--color-background-dark, #1e1e1e);
       color: var(--color-text-dark, #f0f0f0);
     }
   `;
 
-  // Bind the `trail-id` attribute to this property.
+  // 1) Bind the `trail-id` attribute to this property
   @property({ attribute: "trail-id" })
   trailId?: string;
 
-  // Make a reactive getter for `model.trail`
+  // 2) Make a reactive getter for model.trail
   @state()
   get trail(): Trail | undefined {
     return this.model.trail;
   }
 
   constructor() {
-    // Must match <mu-store provides="app:model"> in index.html
-    super("app:model");
+    super("app:model"); // Must match <mu-store provides="app:model">
   }
 
+  // 3) When `trail-id` changes, dispatch "trail/select"
   override attributeChangedCallback(
     name: string,
     oldValue: string | null,
     newValue: string | null
   ) {
     super.attributeChangedCallback(name, oldValue, newValue);
-
-    // Whenever the URL param (trail-id) changes, dispatch "trail/select"
     if (name === "trail-id" && oldValue !== newValue && newValue) {
       this.dispatchMessage(["trail/select", { trailid: newValue }]);
     }
   }
 
   override render() {
-    // If the store hasn’t loaded a Trail yet, show a loading message
+    // 4) If the model hasn’t loaded a Trail yet, show a loading message
     if (!this.trail) {
       return html`<p>Loading trail data…</p>`;
     }
 
-    // Once model.trail is populated, display fields exactly as defined in server/models
+    // 5) Once model.trail is populated, display its fields
     const { name, difficulty, tags, reviews, park } = this.trail;
 
     return html`
@@ -102,7 +126,7 @@ export class TrailViewElement extends View<Model, Msg> {
           ${tags && tags.length > 0
         ? html`
                 <ul>
-                  ${tags.map((tag) => html`<li>${tag}</li>`)}
+                  ${tags.map((t) => html`<li>${t}</li>`)}
                 </ul>
               `
         : html`<span>None</span>`}
@@ -118,6 +142,16 @@ export class TrailViewElement extends View<Model, Msg> {
               `
         : html`<span>No reviews yet.</span>`}
         </div>
+
+        <!-- “Edit this Trail” button (now visible) -->
+        <button
+          @click=${() =>
+        History.dispatch(this, "history/navigate", {
+          href: `/app/trails/${this.trailId}/edit`
+        })}
+        >
+          Edit this Trail
+        </button>
       </article>
     `;
   }

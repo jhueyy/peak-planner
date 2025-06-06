@@ -22,14 +22,17 @@ __export(trail_svc_exports, {
 });
 module.exports = __toCommonJS(trail_svc_exports);
 var import_mongoose = require("mongoose");
-const TrailSchema = new import_mongoose.Schema({
-  id: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  difficulty: { type: String, required: true },
-  tags: [String],
-  reviews: [String],
-  park: { type: String, required: true }
-}, { collection: "trails" });
+const TrailSchema = new import_mongoose.Schema(
+  {
+    id: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    difficulty: { type: String, required: true },
+    tags: [String],
+    reviews: [String],
+    park: { type: String, required: true }
+  },
+  { collection: "trails" }
+);
 const TrailModel = (0, import_mongoose.model)("Trail", TrailSchema);
 function get(id) {
   return TrailModel.findOne({ id }).catch(() => null);
@@ -43,13 +46,13 @@ function create(json) {
 }
 function update(id, data) {
   return TrailModel.findOneAndUpdate({ id }, data, { new: true }).then((updated) => {
-    if (!updated) throw `${id} not updated`;
+    if (!updated) throw new Error(`${id} not updated`);
     return updated;
   });
 }
 function remove(id) {
   return TrailModel.findOneAndDelete({ id }).then((deleted) => {
-    if (!deleted) throw `${id} not deleted`;
+    if (!deleted) throw new Error(`${id} not deleted`);
   });
 }
 var trail_svc_default = { get, index, create, update, remove };
