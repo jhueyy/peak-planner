@@ -9,12 +9,11 @@ import path from "path";
 
 const app = express();
 const port = process.env.PORT || 3000;
-const staticDir = process.env.STATIC || "public";
+const staticDir = process.env.STATIC || "../app/dist";
 
 // Connect to MongoDB
 connect("peak"); // or whatever your db name is
 
-// Serve static frontend (e.g. from proto/dist)
 app.use(express.static(staticDir));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

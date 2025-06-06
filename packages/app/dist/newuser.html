@@ -1,3 +1,4 @@
+<!-- packages/app/newuser.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,19 +6,18 @@
   <meta charset="utf-8" />
   <title>Register New User</title>
 
-  <!-- Load the same init script so that <mu-auth> and <login-form> are defined -->
-  <script type="module" src="/src/login-init.ts"></script>
+  <!-- Vite will transform this into /assets/login-init-<hash>.js in production -->
 
-  <!-- (Optional) your app’s CSS -->
   <link rel="stylesheet" href="/styles/reset.css" />
   <link rel="stylesheet" href="/styles/tokens.css" />
   <link rel="stylesheet" href="/styles/page.css" />
+  <script type="module" crossorigin src="/assets/state-DeUn7hQt.js"></script>
+  <script type="module" crossorigin src="/assets/login-init-CkAgetls.js"></script>
 </head>
 
 <body class="page">
   <mu-auth provides="app:auth" redirect="/app">
     <h2>Register New User</h2>
-
     <main class="card">
       <login-form api="/auth/register" redirect="/app">
         <label>
@@ -29,7 +29,7 @@
           <span>Password:</span>
           <input type="password" name="password" />
         </label>
-        <!-- login-form’s fallback <button type="submit">Submit</button> will appear -->
+        <!-- fallback <button> will appear -->
       </login-form>
     </main>
 

@@ -1,3 +1,4 @@
+<!-- packages/app/login.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,23 +7,24 @@
   <title>Login</title>
 
   <!--
-    Instead of a bare‐module import (which the browser can’t resolve directly),
-    load the `login-init.ts` script. In dev, Vite’s server will translate it;
-    in production, the built JS will be in /dist/assets/.
+    In development, this points to /src/login-init.ts (Vite serves it on the fly).
+    In production, Vite’s build will rewrite it into something like:
+    <script type="module" src="/assets/login-init-<hash>.js"></script>
   -->
-  <script type="module" src="/src/login-init.ts"></script>
 
-  <!-- (Optional) your app’s CSS -->
+  <!-- (Optional) any CSS you need -->
   <link rel="stylesheet" href="/styles/reset.css" />
   <link rel="stylesheet" href="/styles/tokens.css" />
   <link rel="stylesheet" href="/styles/page.css" />
+  <script type="module" crossorigin src="/assets/state-DeUn7hQt.js"></script>
+  <script type="module" crossorigin src="/assets/login-init-CkAgetls.js"></script>
 </head>
 
 <body class="page">
   <mu-auth provides="app:auth" redirect="/app">
     <h2>User Login</h2>
-
     <main class="card">
+      <!-- This <login-form> is defined by login-init.ts -->
       <login-form api="/auth/login" redirect="/app">
         <label>
           <span>Username:</span>
