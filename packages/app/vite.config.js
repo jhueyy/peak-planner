@@ -1,6 +1,6 @@
-// packages/app/vite.config.js
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { resolve } from "path";
 
 export default defineConfig({
     plugins: [tsconfigPaths()],
@@ -14,9 +14,11 @@ export default defineConfig({
     build: {
         rollupOptions: {
             input: {
-                main: new URL("index.html", import.meta.url).pathname,
-                login: new URL("login.html", import.meta.url).pathname,
-                register: new URL("newuser.html", import.meta.url).pathname
+                // your main SPA
+                main: resolve(__dirname, "index.html"),
+                // make sure Vite also “sees” these two files
+                login: resolve(__dirname, "login.html"),
+                register: resolve(__dirname, "newuser.html")
             }
         }
     }
