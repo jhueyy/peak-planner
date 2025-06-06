@@ -10,11 +10,11 @@ import { Trail } from "server/models";
 
 // Make <mu-form> available in this component:
 define({
-    "mu-form": Form.Element
+  "mu-form": Form.Element
 });
 
 export class TrailEditViewElement extends View<Model, Msg> {
-    static styles = css`
+  static styles = css`
     :host {
       display: block;
       padding: 1rem;
@@ -45,14 +45,21 @@ export class TrailEditViewElement extends View<Model, Msg> {
       font-family: var(--font-body);
     }
 
+    /***** BUTTON STYLES *****/
     button {
       padding: 0.6rem 1rem;
       font-size: 1rem;
       background-color: var(--color-primary);
-      color: white;
+      /* In light‐mode, use black text for contrast */
+      color: black;
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
     }
 
     button:disabled {
@@ -64,74 +71,76 @@ export class TrailEditViewElement extends View<Model, Msg> {
       color: var(--color-error);
     }
 
+    /* In dark‐mode, override so the button text becomes white */
+    :host-context(.dark-mode) button {
+      /* keep the same background, but switch text to white */
+      background-color: var(--color-primary);
+      color: white;
+    }
+
     :host-context(.dark-mode) {
       background-color: var(--color-background-dark, #1e1e1e);
       color: var(--color-text-dark, #f0f0f0);
     }
   `;
 
-    // 1) Read the “trail-id” from the attribute set by <mu-switch>
-    @property({ attribute: "trail-id" })
-    trailId?: string;
+  // 1) Read the “trail-id” from the attribute set by <mu-switch>
+  @property({ attribute: "trail-id" })
+  trailId?: string;
 
-    // 2) Expose model.trail as a reactive property
-    @state()
-    get trail(): Trail | undefined {
-        return this.model.trail;
+  // 2) Expose model.trail as a reactive property
+  @state()
+  get trail(): Trail | undefined {
+    return this.model.trail;
+  }
+
+  constructor() {
+    super("app:model"); // Matches <mu-store provides="app:model">
+  }
+
+  // 3) Whenever the attribute “trail-id” changes, dispatch “trail/select”
+  override attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string | null
+  ) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    if (name === "trail-id" && oldValue !== newValue && newValue) {
+      this.dispatchMessage(["trail/select", { trailid: newValue }]);
+    }
+  }
+
+  // 4) Handle the <mu-form> submit event
+  handleSubmit(event: Form.SubmitEvent<Trail>) {
+    event.preventDefault();
+    const updatedData = event.detail as Partial<Trail>;
+
+    this.dispatchMessage([
+      "trail/save",
+      {
+        trailid: this.trailId as string,
+        updated: updatedData,
+        onSuccess: () => {
+          History.dispatch(this, "history/navigate", {
+            href: `/app/trails/${this.trailId}`,
+          });
+        },
+        onFailure: (err: Error) => {
+          console.error("Failed to save trail:", err);
+        },
+      },
+    ]);
+  }
+
+  override render() {
+    if (!this.trail) {
+      return html`<p>Loading trail for editing…</p>`;
     }
 
-    constructor() {
-        super("app:model"); // Matches <mu-store provides="app:model">
-    }
-
-    // 3) Whenever the attribute “trail-id” changes, dispatch “trail/select”
-    override attributeChangedCallback(
-        name: string,
-        oldValue: string | null,
-        newValue: string | null
-    ) {
-        super.attributeChangedCallback(name, oldValue, newValue);
-        if (name === "trail-id" && oldValue !== newValue && newValue) {
-            this.dispatchMessage(["trail/select", { trailid: newValue }]);
-        }
-    }
-
-    // 4) Handle the <mu-form> submit event
-    handleSubmit(event: Form.SubmitEvent<Trail>) {
-        event.preventDefault();
-        // event.detail is an object matching the Trail interface
-        const updatedData = event.detail as Partial<Trail>;
-
-        this.dispatchMessage([
-            "trail/save",
-            {
-                trailid: this.trailId as string,
-                updated: updatedData,
-                onSuccess: () => {
-                    // After saving, navigate back to the detail page
-                    History.dispatch(this, "history/navigate", {
-                        href: `/app/trails/${this.trailId}`,
-                    });
-                },
-                onFailure: (err: Error) => {
-                    console.error("Failed to save trail:", err);
-                },
-            },
-        ]);
-    }
-
-    override render() {
-        // If the store hasn’t loaded model.trail yet, show a loading message
-        if (!this.trail) {
-            return html`<p>Loading trail for editing…</p>`;
-        }
-
-        // Once this.trail is defined, pre-populate the <mu-form> with its data.
-        return html`
+    return html`
       <article>
         <h2>Edit Trail: ${this.trail.name}</h2>
         <mu-form .init=${this.trail} @mu-form:submit=${this.handleSubmit}>
-          <!-- Each <input name="…" /> must match a key on the Trail interface -->
           <label>
             Name:
             <input type="text" name="name" required />
@@ -171,8 +180,7 @@ export class TrailEditViewElement extends View<Model, Msg> {
         </mu-form>
       </article>
     `;
-    }
+  }
 }
 
-// 5) Register the custom element
 define({ "trail-edit-view": TrailEditViewElement });
