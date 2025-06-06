@@ -1,6 +1,6 @@
 // packages/app/src/message.ts
 
-import { Trail, Park, Traveler } from "server/models";
+import { Trail } from "server/models";
 
 export type Msg =
     // Existing “profile” and “select” messages
