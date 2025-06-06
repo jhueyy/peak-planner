@@ -1,19 +1,12 @@
 // packages/app/src/views/home-view.ts
 
 import { html, css } from "lit";
-import { state } from "lit/decorators.js";
 import { define, View } from "@calpoly/mustang";
-
 import { Model } from "../model";
-import { Msg } from "../message";
+import { Msg } from "../message.ts";
 
-// We will wrap each “featured” section in a <peak-wrapper> component,
-// so make sure that component file has already been defined/registered.
-import "../components/peak-wrapper";
-
-// Import any CSS modules you need (these paths assume you have 
-// reset.css.ts and page.css.ts under src/styles)
-import reset from "../styles/reset.css.ts";
+import "../components/peak-wrapper";        // Ensure <peak-wrapper> is registered
+import reset from "../styles/reset.css.ts"; // Your existing CSS modules
 import page from "../styles/page.css.ts";
 
 export class HomeViewElement extends View<Model, Msg> {
@@ -36,6 +29,13 @@ export class HomeViewElement extends View<Model, Msg> {
         margin-bottom: 1rem;
       }
 
+      .page-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+      }
+
       :host-context(.dark-mode) {
         background-color: var(--color-background-dark, #1e1e1e);
         color: var(--color-text-dark, #f0f0f0);
@@ -46,47 +46,33 @@ export class HomeViewElement extends View<Model, Msg> {
   ];
 
   constructor() {
-    // This “app:model” string must exactly match provides="app:model" in index.html
+    // Must match <mu-store provides="app:model"> in index.html
     super("app:model");
-  }
-
-  override connectedCallback() {
-    // Always call super.connectedCallback() first
-    super.connectedCallback();
-
-    // Dispatch the “home/load” message so update.ts can fetch /data/featured.json
-    this.dispatchMessage(["home/load", {}]);
-  }
-
-  // Expose `featured` from the Model as a reactive @state property.
-  @state()
-  get featured() {
-    // If the model has no `featured` yet, default to an empty array
-    return this.model.featured ?? [];
   }
 
   override render() {
     return html`
+      <!-- Top‐level grid wrapper -->
       <main class="page-grid">
+        <!-- Headline text -->
         <p>Explore hiking trails, parks, viewpoints, and more!</p>
 
-        ${this.featured.map(
-      (section) => html`
-            <peak-wrapper
-              .icon=${section.icon}
-              .heading=${section.heading}
-              .items=${section.items}
-            ></peak-wrapper>
-          `
-    )}
+        <!-- ================================
+             Featured Trails
+             Tell <peak-wrapper> to fetch exactly:
+               /data/featured.json
+             (Which you already have under public/data/featured.json).
+        ================================= -->
+        <peak-wrapper src="/data/featured.json"></peak-wrapper>
 
-        <!--
-          If you want static links to other “features” (e.g. Parks / Difficulty / Reviews),
-          you can include them here. Example:
-        -->
+        <!-- ================================
+             Static “Parks” section (example)
+        ================================= -->
         <section class="feature">
           <h2>
-            <svg class="icon"><use href="/icons/hiking.svg#icon-trail"></use></svg>
+            <svg class="icon">
+              <use href="/icons/hiking.svg#icon-trail"></use>
+            </svg>
             Parks
           </h2>
           <ul>
@@ -96,9 +82,14 @@ export class HomeViewElement extends View<Model, Msg> {
           </ul>
         </section>
 
+        <!-- ================================
+             Static “Difficulty Levels” section
+        ================================= -->
         <section class="feature">
           <h2>
-            <svg class="icon"><use href="/icons/hiking.svg#icon-pickaxe"></use></svg>
+            <svg class="icon">
+              <use href="/icons/hiking.svg#icon-pickaxe"></use>
+            </svg>
             Difficulty Levels
           </h2>
           <ul>
@@ -107,9 +98,14 @@ export class HomeViewElement extends View<Model, Msg> {
           </ul>
         </section>
 
+        <!-- ================================
+             Static “Tags” section
+        ================================= -->
         <section class="feature">
           <h2>
-            <svg class="icon"><use href="/icons/hiking.svg#icon-bonfire"></use></svg>
+            <svg class="icon">
+              <use href="/icons/hiking.svg#icon-bonfire"></use>
+            </svg>
             Tags
           </h2>
           <ul>
@@ -118,22 +114,19 @@ export class HomeViewElement extends View<Model, Msg> {
           </ul>
         </section>
 
+        <!-- ================================
+             Static “Reviews” section
+        ================================= -->
         <section class="feature">
           <h2>
-            <svg class="icon"><use href="/icons/hiking.svg#icon-mountain"></use></svg>
+            <svg class="icon">
+              <use href="/icons/hiking.svg#icon-mountain"></use>
+            </svg>
             Reviews
           </h2>
           <ul>
-            <li>
-              <a href="/app/reviews/madonna-review">
-                "Great city views from Madonna!"
-              </a>
-            </li>
-            <li>
-              <a href="/app/reviews/bishop-review">
-                "Challenging hike with a rewarding summit."
-              </a>
-            </li>
+            <li>"Great city views from Madonna!"</li>
+            <li>"Challenging hike with a rewarding summit."</li>
           </ul>
         </section>
       </main>
@@ -141,5 +134,5 @@ export class HomeViewElement extends View<Model, Msg> {
   }
 }
 
-// This registers the tag <home-view> so that <mu-switch> can use it.
+// Register <home-view> so <mu-switch> can use it
 define({ "home-view": HomeViewElement });
