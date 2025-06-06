@@ -86,33 +86,24 @@ export class HomeViewElement extends View<Model, Msg> {
              Static “Difficulty Levels” section
         ================================= -->
         <section class="feature">
-          <h2>
-            <svg class="icon">
-              <use href="/icons/hiking.svg#icon-pickaxe"></use>
-            </svg>
-            Difficulty Levels
-          </h2>
-          <ul>
-            <li><a href="/app/difficulty/moderate">Moderate</a></li>
-            <li><a href="/app/difficulty/hard">Hard</a></li>
-          </ul>
-        </section>
+  <h2>Difficulty Levels</h2>
+  <ul>
+    <li>Moderate</li>
+    <li>Hard</li>
+  </ul>
+</section>
+
 
         <!-- ================================
              Static “Tags” section
         ================================= -->
         <section class="feature">
-          <h2>
-            <svg class="icon">
-              <use href="/icons/hiking.svg#icon-bonfire"></use>
-            </svg>
-            Tags
-          </h2>
-          <ul>
-            <li><a href="/app/tags/view">Great Views</a></li>
-            <li><a href="/app/tags/sunset">Sunset Spot</a></li>
-          </ul>
-        </section>
+  <h2>Tags</h2>
+  <ul>
+    <li>Great Views</li>
+    <li>Sunset Spot</li>
+  </ul>
+</section>
 
         <!-- ================================
              Static “Reviews” section
