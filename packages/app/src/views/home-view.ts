@@ -86,24 +86,24 @@ export class HomeViewElement extends View<Model, Msg> {
              Static “Difficulty Levels” section
         ================================= -->
         <section class="feature">
-  <h2>Difficulty Levels</h2>
-  <ul>
-    <li>Moderate</li>
-    <li>Hard</li>
-  </ul>
-</section>
+        <h2>Difficulty Levels</h2>
+        <ul>
+          <li>Moderate</li>
+          <li>Hard</li>
+        </ul>
+      </section>
 
 
         <!-- ================================
              Static “Tags” section
         ================================= -->
         <section class="feature">
-  <h2>Tags</h2>
-  <ul>
-    <li>Great Views</li>
-    <li>Sunset Spot</li>
-  </ul>
-</section>
+        <h2>Tags</h2>
+        <ul>
+          <li>Great Views</li>
+          <li>Sunset Spot</li>
+        </ul>
+      </section>
 
         <!-- ================================
              Static “Reviews” section
