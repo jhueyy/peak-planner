@@ -56,6 +56,7 @@ export class LoginFormElement extends LitElement {
         this.formData = { ...this.formData, [name]: value };
     }
 
+
     handleSubmit(submitEvent: SubmitEvent) {
         submitEvent.preventDefault();
         if (!this.canSubmit) return;
@@ -63,19 +64,20 @@ export class LoginFormElement extends LitElement {
         fetch(this.api || "", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.formData)
+            body: JSON.stringify(this.formData),
         })
             .then((res) => {
-                if (res.status !== 200) throw new Error("Authentication failed");
+                // use res.ok instead of res.status === 200
+                if (!res.ok) throw new Error("Authentication failed");
                 return res.json();
             })
             .then((json: any) => {
                 const { token } = json as { token: string };
-                // Dispatch a message so <mu-auth> can handle it
+                // Tell <mu-auth> “here’s your token, please sign in & redirect.”
                 const authEvent = new CustomEvent("auth:message", {
                     bubbles: true,
                     composed: true,
-                    detail: ["auth/signin", { token, redirect: this.redirect }]
+                    detail: ["auth/signin", { token, redirect: this.redirect }],
                 });
                 this.dispatchEvent(authEvent);
             })
