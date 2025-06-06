@@ -1,3 +1,5 @@
+// packages/app/src/update.ts
+
 import { Auth, Update } from "@calpoly/mustang";
 import { Msg } from "./message";
 import { Model, FeaturedSection } from "./model";
@@ -38,8 +40,7 @@ export default function update(
         default:
             throw new Error(`Unhandled message: ${message[0]}`);
     }
-}
-
+};
 
 // ========== Helpers ==========
 
@@ -48,8 +49,8 @@ function loadProfile(
     user: Auth.User
 ): Promise<Traveler | undefined> {
     return fetch(`/api/travelers/${userid}`, {
-        headers: Auth.headers(user)
-    }).then(res => (res.ok ? res.json() : undefined));
+        headers: Auth.headers(user),
+    }).then((res) => (res.ok ? res.json() : undefined));
 }
 
 function loadTrail(
@@ -57,8 +58,8 @@ function loadTrail(
     user: Auth.User
 ): Promise<Trail | undefined> {
     return fetch(`/api/trails/${trailid}`, {
-        headers: Auth.headers(user)
-    }).then(res => (res.ok ? res.json() : undefined));
+        headers: Auth.headers(user),
+    }).then((res) => (res.ok ? res.json() : undefined));
 }
 
 function loadPark(
@@ -66,6 +67,6 @@ function loadPark(
     user: Auth.User
 ): Promise<Park | undefined> {
     return fetch(`/api/parks/${parkid}`, {
-        headers: Auth.headers(user)
-    }).then(res => (res.ok ? res.json() : undefined));
+        headers: Auth.headers(user),
+    }).then((res) => (res.ok ? res.json() : undefined));
 }

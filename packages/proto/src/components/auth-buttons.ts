@@ -10,7 +10,7 @@ export class HeaderButtons extends LitElement {
   @state()
   user?: string;
 
-  private _auth = new Observer<Auth.Model>(this, "blazing:auth");
+  private _auth = new Observer<Auth.Model>(this, "app:auth");
 
   connectedCallback() {
     super.connectedCallback();

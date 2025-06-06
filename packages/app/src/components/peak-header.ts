@@ -2,7 +2,7 @@ import { html, css, LitElement } from "lit";
 import { state } from "lit/decorators.js";
 import { Auth, Observer, Events } from "@calpoly/mustang";
 
-export class PeakHeader extends LitElement {
+export class PeakHeaderElement extends LitElement {
   static styles = css`
   header {
     display: flex;
@@ -61,7 +61,7 @@ export class PeakHeader extends LitElement {
 `;
 
 
-  private _authObserver = new Observer<Auth.Model>(this, "blazing:auth");
+  private _authObserver = new Observer<Auth.Model>(this, "app:auth");
 
   @state() loggedIn = false;
   @state() userid?: string;

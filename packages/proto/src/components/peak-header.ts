@@ -3,7 +3,7 @@ import { state } from "lit/decorators.js";
 import { Auth, Observer, Events } from "@calpoly/mustang";
 
 export class PeakHeader extends LitElement {
- static styles = css`
+  static styles = css`
   header {
     display: flex;
     align-items: center;
@@ -61,7 +61,7 @@ export class PeakHeader extends LitElement {
 `;
 
 
-  private _authObserver = new Observer<Auth.Model>(this, "blazing:auth");
+  private _authObserver = new Observer<Auth.Model>(this, "app:auth");
 
   @state() loggedIn = false;
   @state() userid?: string;
@@ -98,11 +98,11 @@ export class PeakHeader extends LitElement {
           <a href="#">Explore</a>
           <a href="#">About</a>
           ${this.loggedIn
-            ? html`
+        ? html`
                 <span>Hello, ${this.userid}</span>
                 <button @click=${this.handleSignOut}>Sign Out</button>
               `
-            : html`<a href="/login.html">Sign In…</a>`}
+        : html`<a href="/login.html">Sign In…</a>`}
         </nav>
       </header>
     `;

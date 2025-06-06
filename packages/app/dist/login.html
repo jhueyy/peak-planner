@@ -4,53 +4,44 @@
 <head>
   <meta charset="utf-8" />
   <title>Login</title>
+
+  <!--
+    Instead of a bare‐module import (which the browser can’t resolve directly),
+    load the `login-init.ts` script. In dev, Vite’s server will translate it;
+    in production, the built JS will be in /dist/assets/.
+  -->
+  <script type="module" src="/src/login-init.ts"></script>
+
+  <!-- (Optional) your app’s CSS -->
+  <link rel="stylesheet" href="/styles/reset.css" />
+  <link rel="stylesheet" href="/styles/tokens.css" />
+  <link rel="stylesheet" href="/styles/page.css" />
 </head>
 
-<body>
-  <h2>User Login</h2>
-  <form id="login-form">
-    <label>
-      Username:
-      <input type="text" name="username" autocomplete="off" required />
-    </label>
-    <label>
-      Password:
-      <input type="password" name="password" required />
-    </label>
-    <button type="submit">Login</button>
-  </form>
+<body class="page">
+  <mu-auth provides="app:auth" redirect="/app">
+    <h2>User Login</h2>
 
-  <p>
-    Or did you want to <a href="newuser.html" target="_top">Sign up as a new user</a>?
-  </p>
+    <main class="card">
+      <login-form api="/auth/login" redirect="/app">
+        <label>
+          <span>Username:</span>
+          <input type="text" name="username" autocomplete="off" />
+        </label>
 
-  <script>
-    const form = document.getElementById("login-form");
+        <label>
+          <span>Password:</span>
+          <input type="password" name="password" />
+        </label>
+        <!-- login-form’s fallback <button type="submit">Submit</button> will appear -->
+      </login-form>
+    </main>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData(form);
-      const username = formData.get("username");
-      const password = formData.get("password");
-
-      const res = await fetch("/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-      });
-
-      if (res.ok) {
-        const { token } = await res.json();
-        localStorage.setItem("token", token);
-        window.location.replace("/app");
-      } else {
-        alert("Login failed. Please check your credentials.");
-      }
-    });
-  </script>
+    <p>
+      Or did you want to
+      <a href="/newuser.html" target="_top">Sign up as a new user</a>?
+    </p>
+  </mu-auth>
 </body>
 
 </html>

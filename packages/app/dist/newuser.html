@@ -3,55 +3,41 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Register</title>
+  <title>Register New User</title>
+
+  <!-- Load the same init script so that <mu-auth> and <login-form> are defined -->
+  <script type="module" src="/src/login-init.ts"></script>
+
+  <!-- (Optional) your app’s CSS -->
+  <link rel="stylesheet" href="/styles/reset.css" />
+  <link rel="stylesheet" href="/styles/tokens.css" />
+  <link rel="stylesheet" href="/styles/page.css" />
 </head>
 
-<body>
-  <h2>Register New User</h2>
+<body class="page">
+  <mu-auth provides="app:auth" redirect="/app">
+    <h2>Register New User</h2>
 
-  <form id="register-form">
-    <label>
-      Username:
-      <input type="text" name="username" autocomplete="off" required />
-    </label>
+    <main class="card">
+      <login-form api="/auth/register" redirect="/app">
+        <label>
+          <span>Username:</span>
+          <input type="text" name="username" autocomplete="off" />
+        </label>
 
-    <label>
-      Password:
-      <input type="password" name="password" required />
-    </label>
+        <label>
+          <span>Password:</span>
+          <input type="password" name="password" />
+        </label>
+        <!-- login-form’s fallback <button type="submit">Submit</button> will appear -->
+      </login-form>
+    </main>
 
-    <button type="submit">Register</button>
-  </form>
-
-  <p>Already have an account? <a href="login.html">Log in</a></p>
-
-  <script>
-    const form = document.getElementById("register-form");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData(form);
-      const username = formData.get("username");
-      const password = formData.get("password");
-
-      const res = await fetch("/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-      });
-
-      if (res.ok) {
-        const { token } = await res.json();
-        localStorage.setItem("token", token);
-        window.location.replace("/app");
-      } else {
-        alert("Registration failed. That username may already be taken.");
-      }
-    });
-  </script>
+    <p>
+      Already have an account?
+      <a href="/login.html">Log in</a>
+    </p>
+  </mu-auth>
 </body>
 
 </html>
