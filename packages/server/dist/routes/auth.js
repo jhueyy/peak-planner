@@ -63,12 +63,23 @@ router.post("/register", (req, res) => {
   );
 });
 router.post("/login", (req, res) => {
+  console.log("Login attempt received:", { username: req.body.username });
   const { username, password } = req.body;
   if (!username || !password) {
+    console.log("Login failed: Missing credentials");
     res.status(400).send("Bad request: Missing credentials.");
     return;
   }
-  import_credential_svc.default.verify(username, password).then((user) => generateAccessToken(user)).then((token) => res.status(200).send({ token })).catch(() => res.status(401).send("Unauthorized"));
+  import_credential_svc.default.verify(username, password).then((user) => {
+    console.log("Credentials verified for user:", user);
+    return generateAccessToken(user);
+  }).then((token) => {
+    console.log("Token generated successfully");
+    res.status(200).send({ token });
+  }).catch((error) => {
+    console.log("Login failed:", error);
+    res.status(401).send("Unauthorized");
+  });
 });
 function authenticateUser(req, res, next) {
   const authHeader = req.headers["authorization"];

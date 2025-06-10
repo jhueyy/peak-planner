@@ -39,18 +39,29 @@ router.post("/register", (req: Request, res: Response): void => {
 });
 
 router.post("/login", (req: Request, res: Response): void => {
+  console.log("Login attempt received:", { username: req.body.username });
   const { username, password } = req.body;
 
   if (!username || !password) {
+    console.log("Login failed: Missing credentials");
     res.status(400).send("Bad request: Missing credentials.");
     return;
   }
 
   credentials
     .verify(username, password)
-    .then((user: string) => generateAccessToken(user))
-    .then((token) => res.status(200).send({ token }))
-    .catch(() => res.status(401).send("Unauthorized"));
+    .then((user: string) => {
+      console.log("Credentials verified for user:", user);
+      return generateAccessToken(user);
+    })
+    .then((token) => {
+      console.log("Token generated successfully");
+      res.status(200).send({ token });
+    })
+    .catch((error) => {
+      console.log("Login failed:", error);
+      res.status(401).send("Unauthorized");
+    });
 });
 
 
@@ -73,7 +84,7 @@ export function authenticateUser(
       return;
     }
 
-    next(); 
+    next();
   });
 }
 
